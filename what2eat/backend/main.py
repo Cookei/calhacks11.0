@@ -6,13 +6,23 @@ app = Flask(__name__)
 def home():
     return "Hello World"
 
-# get preference data
-@app.route('/preferences', methods=["POST"])
+# create new url instance
+# required arguments
+# num-participants: int
+@app.route('/create-new-event', methods=["POST"])
+def get_preferences():
+    if request != None:
+        print(request.json)
+
+# submit preference data for one participant
+@app.route('/submit-form', methods=["POST"])
 def get_preferences():
     if request != None:
         print(request.json)
 
 # return recommended restaurants
+# if everyone has submitted the form -> return remaining
+# else -> return recommended restaurants
 @app.route('/restaurants', methods=["GET"])
 def reccomend_restaurants():
     return jsonify({"message": "hello"}), 200
