@@ -1,4 +1,7 @@
 from flask import Flask, jsonify, request
+from get_yelp import get_details, average_distance, average_price
+import json
+import requests
 
 app = Flask(__name__)
 
@@ -6,27 +9,53 @@ app = Flask(__name__)
 def home():
     return "Hello World"
 
-# create new url instance
-# required arguments
-# num-participants: int
-@app.route('/create-new-event', methods=["POST"])
-def get_preferences():
-    if request != None:
-        print(request.json)
-
-# submit preference data for one participant
-@app.route('/submit-form', methods=["POST"])
-def submit_form():
-    if request != None:
-        print(request.json)
-
 # return recommended restaurants
 # if everyone has submitted the form -> return remaining
 # else -> return recommended restaurants
 @app.route('/restaurants', methods=["GET"])
 def recommend_restaurants():
-    return jsonify({"message": "hello"}), 200
+    if request != None:
+        data = request.json
+        lon = data["location"][0]
+        lat = data["location"][1]
+        dist = average_distance(data["preferredDistance"])
+        price  = average_price(data["price"])
+        cuisines = data["preferredCuisines"]
+        yelp_response = get_details(lon, lat, dist, cuisines, price)
+        return jsonify(format_restaurant_details(yelp_response))
+    else:
+        return jsonify({"message": "no request found"}), 400
 
+def format_restaurant_details(yelp_details):
+    max = 3
+    restaurants = []
+
+    for i, bus in enumerate(yelp_details.get("businesses")):
+        if i >= 3:
+            break
+        restaurants.append(restaurant(
+            name=bus["name"],
+            distance=bus["distance"],
+            rating=bus["rating"],
+            price=bus["price"],
+            webpage=bus["menu_url"],
+            icon=bus["image_url"],
+            cuisines=bus["categories"][0]["title"]
+        ))
+    return restaurants
+    
+def restaurant(name, distance, rating, price, webpage, icon, cuisines):
+    data = {
+        "name": name,
+        "icon": icon,
+        "price": price, 
+        "website": "https://" + webpage,
+        "distance": distance,
+        "rating": rating,
+        "cuisines": cuisines
+    }
+    return json.dumps(data, indent=4)
+    
 if __name__ == '__main__':
     app.run(debug=True)
 
