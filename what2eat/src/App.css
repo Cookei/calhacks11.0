@@ -94,7 +94,6 @@ input[type="number"] {
   }
   * input:hover {
     background-color: aliceblue;
-    transform: scale(1.05);
   }
 
   .dropdown {
@@ -160,6 +159,7 @@ input[type="number"] {
   .cuisineButton:hover {
     filter: saturate(150%);
     cursor: pointer;
+    transform: scale(1.05);
   }
 }
 
@@ -171,6 +171,33 @@ input[type="number"] {
 .white {
   background-color: white;
   transition: all 0.1s;
+}
+
+.listingContainer {
+  border: none;
+  border-radius: 10px;
+  background-color: #afa5c5;
+  width: 350px;
+  padding: 25px;
+  padding-top: 15px;
+  padding-bottom: 10px;
+  box-shadow: 0px 4px 4px rgba(90, 90, 90, 0.3);
+
+  h1 {
+    font-size: 40px;
+  }
+
+  .listingContainerRow {
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    padding-top: 7px;
+    margin-left: 3px;
+    font-family: unset;
+  }
 }
 
 .listing {
