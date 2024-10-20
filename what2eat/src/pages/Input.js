@@ -8,23 +8,43 @@ const Input = () => {
     console.log(formData);
   };
 
-  const [checkboxes, setCheckboxes] = useState({
-    option1: false,
-    option2: false,
-    option3: false,
-  });
+  const CUISINE_OPTIONS = [
+    "Chinese",
+    "Mexican",
+    "Italian",
+    "Korean",
+    "Indian",
+    "Mediterranean",
+    "Thai",
+    "Japanese",
+    "American",
+    "French",
+    "Vietnamese",
+    "Other",
+  ];
 
-  const handleCheckboxChange = (event) => {
-    const { name, checked } = event.target;
-    setCheckboxes({
-      ...checkboxes,
-      [name]: checked,
-    });
+  const [cuisineOptions, setCuisineOptions] = useState({});
+
+  useState(() => {
+    let obj = {};
+    for (let key of CUISINE_OPTIONS) {
+      obj[key] = false;
+    }
+    obj["Other"] = true;
+    setCuisineOptions(obj);
+  }, []);
+
+  const handleCuisineSelect = (e) => {
+    const value = e.target.value;
+    let obj = JSON.parse(JSON.stringify(cuisineOptions));
+    obj[value] = !obj[value];
+    setCuisineOptions(obj);
   };
 
   return (
-    <>
+    <div className="centerContents" style={{ marginTop: "50px" }}>
       <div className="verticalForm">
+        <h1>Submit your preferences here!</h1>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -35,26 +55,138 @@ const Input = () => {
             <label htmlFor="cuisines">
               What cuisine(s) are you feeling today?
             </label>
-            <label>
-              <input
-                type="checkbox"
-                name="option1"
-                checked={checkboxes.option1}
-                onChange={handleCheckboxChange}
-              />
-              Chinese
-            </label>
+            <div style={{ display: "block" }}>
+              <div className="cuisineGrid">
+                {CUISINE_OPTIONS.map((e, i) => {
+                  return (
+                    <input
+                      type="button"
+                      name={e}
+                      value={e}
+                      key={i}
+                      className={
+                        cuisineOptions[e]
+                          ? "cuisineButton green"
+                          : "cuisineButton white"
+                      }
+                      onClick={handleCuisineSelect}
+                    />
+                  );
+                })}
+              </div>
+            </div>
           </div>
           <div>
             <label htmlFor="distance">
               How far are you willing to travel? (miles)
             </label>
-            <NumberInput></NumberInput>
+            <div className="centerContents">
+              <div
+                style={{ position: "relative" }}
+                className="centerContentsVertical"
+              >
+                <input
+                  id="1mi"
+                  type="radio"
+                  value="1mi"
+                  name="distanceSelector"
+                />
+                <label htmlFor="1mi">1mi</label>
+              </div>
+              <div
+                style={{ position: "relative" }}
+                className="centerContentsVertical"
+              >
+                <input
+                  id="5mi"
+                  type="radio"
+                  value="1mi"
+                  name="distanceSelector"
+                />
+                <label htmlFor="5mi">5mi</label>
+              </div>
+              <div
+                style={{ position: "relative" }}
+                className="centerContentsVertical"
+              >
+                <input
+                  id="10mi"
+                  type="radio"
+                  value="1mi"
+                  name="distanceSelector"
+                />
+                <label htmlFor="10mi">10mi</label>
+              </div>
+              <div
+                style={{ position: "relative" }}
+                className="centerContentsVertical"
+              >
+                <input
+                  id="20mi"
+                  type="radio"
+                  value="1mi"
+                  name="distanceSelector"
+                />
+                <label htmlFor="20mi">20mi</label>
+              </div>
+              <div
+                style={{ position: "relative" }}
+                className="centerContentsVertical"
+              >
+                <input
+                  id="40mi"
+                  type="radio"
+                  value="40mi"
+                  name="distanceSelector"
+                />
+                <label htmlFor="40mi">40mi</label>
+              </div>
+            </div>
           </div>
-          Price
+          <div>
+            <label>How much are you willing to spend?</label>
+            <div style={{ display: "block" }}>
+              <div>
+                <input id="1dollar" type="radio" name="dollars" value="1" />
+                <label htmlFor="1dollar">
+                  <i className="material-icons-round">attach_money</i>
+                </label>
+              </div>
+              <div>
+                <input id="2dollar" type="radio" name="dollars" value="2" />
+                <label htmlFor="2dollar">
+                  <i className="material-icons-round">
+                    attach_moneyattach_money
+                  </i>
+                </label>
+              </div>
+              <div>
+                <input id="3dollar" type="radio" name="dollars" value="3" />
+                <label htmlFor="3dollar">
+                  <i className="material-icons-round">
+                    attach_moneyattach_moneyattach_money
+                  </i>
+                </label>
+              </div>
+              <div>
+                <input id="4dollar" type="radio" name="dollars" value="4" />
+                <label htmlFor="4dollar">
+                  <i className="material-icons-round">
+                    attach_moneyattach_moneyattach_moneyattach_money
+                  </i>
+                </label>
+              </div>
+            </div>
+          </div>
+          <input
+            type="submit"
+            value="Submit Preferences!"
+            className="buttonStyle"
+            style={{ width: "100%", backgroundColor: "#F5ABFF" }}
+          ></input>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 
