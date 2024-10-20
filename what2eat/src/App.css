@@ -173,6 +173,32 @@ input[type="number"] {
   transition: all 0.1s;
 }
 
+.listingContainer {
+  border: none;
+  border-radius: 10px;
+  background-color: #afa5c5;
+  width: 350px;
+  padding: 25px;
+  padding-top: 15px;
+  padding-bottom: 10px;
+
+  h1 {
+    font-size: 40px;
+  }
+
+  .listingContainerRow {
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    padding-top: 7px;
+    margin-left: 3px;
+    font-family: unset;
+  }
+}
+
 .listing {
   border: none;
   border-radius: 10px;
