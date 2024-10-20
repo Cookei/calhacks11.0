@@ -29,6 +29,10 @@ body > #root {
   font: unset;
   line-height: 35px;
   box-shadow: 0px 4px 4px rgba(90, 90, 90, 0.3);
+  transition: all 0.1s;
+}
+.buttonStyle:hover {
+  filter: saturate(150%);
 }
 button,
 input[type="submit"] {
@@ -82,9 +86,14 @@ input[type="number"] {
     padding-left: 1rem;
     padding-right: 1rem;
     box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(90, 90, 90, 0.3);
+    transition: all 0.1s;
   }
   * input:focus {
     outline-width: 0px;
+  }
+  * input:hover {
+    background-color: aliceblue;
   }
 
   .dropdown {
@@ -95,11 +104,23 @@ input[type="number"] {
     padding-left: 1rem;
     padding-right: 1rem;
     box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(90, 90, 90, 0.3);
+    transition: all 0.1s;
+  }
+  .dropdown:focus {
+    outline-width: 0px;
+  }
+  .dropdown:hover {
+    cursor: pointer;
+    background-color: aliceblue;
   }
 
   .weekDayPicker {
     width: 100%;
     display: flex;
+    box-shadow: 0px 4px 4px rgba(90, 90, 90, 0.3);
+    border-radius: 10px;
+
     input[type="button"] {
       flex-grow: 1;
       width: auto;
@@ -107,6 +128,9 @@ input[type="number"] {
       border: none;
       height: 2rem;
       border-right: 1px solid black;
+    }
+    input[type="button"]:hover {
+      cursor: pointer;
     }
     input[type="button"]:first-child {
       border-radius: 10px 0 0 10px;
@@ -119,9 +143,11 @@ input[type="number"] {
 }
 
 .green {
-  background-color: #32e329;
+  background-color: #47f63e;
+  transition: all 0.1s;
 }
 
 .white {
   background-color: white;
+  transition: all 0.1s;
 }

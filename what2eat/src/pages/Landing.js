@@ -3,11 +3,9 @@ import PageButton from "../components/PageButton";
 import Dropdowns from "../components/Dropdowns";
 import { useState } from "react";
 import Autocomplete from "react-google-autocomplete";
+import { useLocation } from "wouter";
 
 const Landing = () => {
-  const createEvent = (formData) => {
-    console.log(formData);
-  };
   const [selectedLocation, setSelectedLocation] = useState([]);
   const [selectedDays, setSelectedDays] = useState({
     Sun: false,
@@ -19,13 +17,38 @@ const Landing = () => {
     Sat: false,
   });
   const mapsRef = useRef();
+  const [location, setLocation] = useLocation();
+
+  const createEvent = (formData) => {
+    let elements = formData.target.elements;
+
+    let eventObj = {
+      name: elements["getEventName"].value,
+      time: {
+        from: elements["getStartTime"].value,
+        to: elements["getEndTime"].value,
+      },
+      days: selectedDays,
+      numPeople: elements["getNumPeople"].value,
+      location: selectedLocation,
+    };
+
+    fetch("http://localhost:3000/create", {
+      method: "POST",
+      body: JSON.stringify(eventObj),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    }).then((res) => {
+      setLocation("/create");
+    });
+  };
 
   const handleDaySelection = (e) => {
     let val = e.target.value;
-    let obj = selectedDays;
+    let obj = JSON.parse(JSON.stringify(selectedDays));
     obj[val] = !obj[val];
     setSelectedDays(obj);
-    console.log(obj);
   };
 
   return (
@@ -152,7 +175,7 @@ const Landing = () => {
                       handleDaySelection(e);
                     }}
                     value="Sun"
-                    className={selectedDays["Sun"] ? "green" : "white"}
+                    className={selectedDays["Sun"] == true ? "green" : "white"}
                   />
                   <input
                     type="button"
@@ -220,12 +243,14 @@ const Landing = () => {
               <div className="centerContents" style={{ gap: "1rem" }}>
                 <Autocomplete
                   ref={mapsRef}
+                  required
                   style={{
                     width: "50%",
                     border: "none",
                     borderRadius: "5px",
                     paddingLeft: "15px",
                     paddingRight: "15px",
+                    boxShadow: "0px 4px 4px rgba(90, 90, 90, 0.3)",
                   }}
                   apiKey={"AIzaSyB6uWOr_UuBlz6vD_f-faIlAxgTHyBtC8A"}
                   onPlaceSelected={(place) => {
@@ -248,10 +273,10 @@ const Landing = () => {
                     navigator.geolocation.getCurrentPosition(
                       (position) => {
                         setSelectedLocation([
-                          position.coords.latitude,
                           position.coords.longitude,
+                          position.coords.latitude,
                         ]);
-                        mapsRef.current.value = "";
+                        mapsRef.current.value = `${position.coords.longitude}, ${position.coords.latitude}`;
                       },
                       () => {
                         alert("Unable to retrive your location");
