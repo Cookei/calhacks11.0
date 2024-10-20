@@ -25,6 +25,7 @@ const Input = () => {
   const [cuisineOptions, setCuisineOptions] = useState({});
   const [dataObject, setDataObject] = useState({});
   const [restaurantData, setRestaurantData] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
 
   const sendPreference = (formData) => {
     let elements = formData.target.elements;
@@ -46,6 +47,7 @@ const Input = () => {
       },
     }).then((res) => {
       fetchRestaurantData();
+      setSubmitted(true);
     });
   };
 
