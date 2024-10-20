@@ -5,6 +5,7 @@ import Landing from "./pages/Landing";
 import Navbar from "./components/Navbar";
 import Listing from "./components/Listing";
 import Input from "./pages/Input";
+import ListingContainer from "./components/ListingContainer"
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         <Input />
       </Route>
       <Route path="/test">
-        <Listing />
+        <ListingContainer />
       </Route>
     </>
   );
