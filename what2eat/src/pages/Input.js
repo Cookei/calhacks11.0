@@ -19,7 +19,6 @@ const Input = () => {
     "American",
     "French",
     "Vietnamese",
-    "Other",
   ];
 
   const [cuisineOptions, setCuisineOptions] = useState({});
@@ -129,6 +128,7 @@ const Input = () => {
                     preferredCuisines: [],
                     preferredDistance: [],
                     preferredPrice: [],
+                    location: [dataObject.location[0], dataObject.location[1]],
                   };
                   for (let i = 0; i < dataObject.prefs.length; i++) {
                     Object.keys(dataObject.prefs[i].cuisines).forEach((e) => {
@@ -152,10 +152,45 @@ const Input = () => {
                   })
                     .then((res) => res.json())
                     .then((data) => {
+                      data = JSON.parse(data);
+                      console.log(data);
                       setRestaurantData(data);
                     })
                     .catch((err) => {});
                 }
+              } else {
+                let aggData = {
+                  preferredCuisines: [],
+                  preferredDistance: [],
+                  preferredPrice: [],
+                  location: [dataObject.location[0], dataObject.location[1]],
+                };
+                for (let i = 0; i < dataObject.prefs.length; i++) {
+                  Object.keys(dataObject.prefs[i].cuisines).forEach((e) => {
+                    if (dataObject.prefs[i].cuisines[e] == true) {
+                      aggData.preferredCuisines.push(e);
+                    }
+                  });
+                  aggData.preferredDistance.push(
+                    parseInt(dataObject.prefs[i].distance)
+                  );
+                  aggData.preferredPrice.push(
+                    parseInt(dataObject.prefs[i].price)
+                  );
+                }
+                fetch("/restaurants", {
+                  method: "POST",
+                  body: JSON.stringify(aggData),
+                  headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                  },
+                })
+                  .then((res) => res.json())
+                  .then((data) => {
+                    console.log(data);
+                    setRestaurantData(data);
+                  })
+                  .catch((err) => {});
               }
             }}
           >

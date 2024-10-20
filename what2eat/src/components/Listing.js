@@ -1,36 +1,23 @@
 import React from "react";
 
 const Listing = ({ data }) => {
-  data = {
-    name: "Yi Fang",
-    icon: "https://s3-media0.fl.yelpcdn.com/bphoto/LGKisGL1yTe_5GnGwZ0o0g/348s.jpg",
-    price: 2,
-    location: "https://maps.app.goo.gl/pyR4gcozv1d125i49",
-    distance: "5mi",
-    review: 4.5,
-    cuisine: "chinese, boba",
-  };
-
   let reviewArray = [];
   let moneyString = "";
+  data = JSON.parse(data);
 
-  for (let i = 0; i < Math.floor(data.review); i++) {
+  for (let i = 0; i < Math.floor(data.rating); i++) {
     reviewArray.push(
       <i className="material-icons-round stars" key={i}>
         star
       </i>
     );
   }
-  if (!Number.isInteger(data.review)) {
+  if (!Number.isInteger(data.rating)) {
     reviewArray.push(
-      <i className="material-icons-round stars" key={data.review}>
+      <i className="material-icons-round stars" key={data.rating}>
         star_half
       </i>
     );
-  }
-
-  for (let i = 0; i < data.price; i++) {
-    moneyString += "attach_money";
   }
 
   return (
@@ -40,12 +27,12 @@ const Listing = ({ data }) => {
         <div className="top">
           <div>
             <div>{data.name}</div>
-            <i className="material-icons-round">{moneyString}</i>
+            {data.price}
           </div>
-          <div>{data.distance}</div>
+          <div>{Math.round(data.distance)}mi</div>
         </div>
         <div className="bottom">
-          <div>{data.cuisine}</div>
+          <div>{data.cuisines}</div>
           <div>{reviewArray}</div>
         </div>
       </div>
