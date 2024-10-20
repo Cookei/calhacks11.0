@@ -4,6 +4,7 @@ import Dropdowns from "../components/Dropdowns";
 import { useState } from "react";
 import Autocomplete from "react-google-autocomplete";
 import { useLocation } from "wouter";
+import APIKEY from "../apikey";
 
 const Landing = () => {
   const [selectedLocation, setSelectedLocation] = useState([]);
@@ -252,7 +253,7 @@ const Landing = () => {
                     paddingRight: "15px",
                     boxShadow: "0px 4px 4px rgba(90, 90, 90, 0.3)",
                   }}
-                  apiKey={"AIzaSyB6uWOr_UuBlz6vD_f-faIlAxgTHyBtC8A"}
+                  apiKey={APIKEY}
                   onPlaceSelected={(place) => {
                     setSelectedLocation([
                       place.geometry.location.lng(),

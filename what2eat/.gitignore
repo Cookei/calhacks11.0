@@ -2,6 +2,7 @@
 
 # key
 backend/credentials.json
+apikey.js
 
 # dependencies
 /node_modules
