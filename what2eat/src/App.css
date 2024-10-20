@@ -151,3 +151,56 @@ input[type="number"] {
   background-color: white;
   transition: all 0.1s;
 }
+
+.listing {
+  border: none;
+  border-radius: 10px;
+  background-color: #e4ffab;
+  width: 300px;
+  display: flex;
+  padding: 10px;
+  font-family: unset;
+  box-shadow: 0px 4px 4px rgba(90, 90, 90, 0.3);
+  img {
+    height: 100px;
+    border-radius: 10px;
+    margin-right: 1rem;
+  }
+  > div {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .top,
+  .bottom {
+    display: flex;
+    width: 100%;
+  }
+  .bottom {
+    flex-direction: column;
+    justify-content: start;
+    text-align: left;
+  }
+
+  .top {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .top > div {
+    display: flex;
+    align-items: center;
+    i {
+      font-size: small;
+      letter-spacing: -5px;
+    }
+  }
+  .top > div > div:first-child {
+    font-size: large;
+  }
+}
+
+.stars {
+  color: rgb(244, 230, 23);
+}
