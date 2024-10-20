@@ -33,7 +33,7 @@ const Landing = () => {
       location: selectedLocation,
     };
 
-    fetch("http://localhost:3000/create", {
+    fetch("/create", {
       method: "POST",
       body: JSON.stringify(eventObj),
       headers: {
@@ -285,12 +285,9 @@ const Landing = () => {
                   }}
                 >
                   Use Location
-                  <span
-                    className="material-symbols-outlined"
-                    style={{ lineHeight: "35px" }}
-                  >
+                  <i className="material-icons" style={{ lineHeight: "35px" }}>
                     location_on
-                  </span>
+                  </i>
                 </button>
               </div>
               <input
