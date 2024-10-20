@@ -24,6 +24,7 @@ const Input = () => {
 
   const [cuisineOptions, setCuisineOptions] = useState({});
   const [dataObject, setDataObject] = useState({});
+  const [restaurantData, setRestaurantData] = useState(null);
 
   const sendPreference = (formData) => {
     let elements = formData.target.elements;
@@ -43,7 +44,37 @@ const Input = () => {
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
-    }).then((res) => {});
+    }).then((res) => {
+      fetchRestaurantData();
+    });
+  };
+
+  const fetchRestaurantData = () => {
+    fetch("/checkKeyExists", {
+      method: "POST",
+      body: JSON.stringify(searchString),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        let prefArray = Object.values(data.prefs).map((v) => v);
+        let currNumPeople = prefArray.length;
+        let dataObject = {
+          days: data.days,
+          location: data.location,
+          name: data.name,
+          maxNumPeople: data.numPeople,
+          currNumPeople: currNumPeople,
+          prefs: prefArray,
+          time: data.time,
+        };
+        setDataObject(dataObject);
+      })
+      .catch((error) => {
+        setLocation("/");
+      });
   };
 
   useState(() => {
@@ -54,31 +85,7 @@ const Input = () => {
     ) {
       setLocation("/");
     } else {
-      fetch("/checkKeyExists", {
-        method: "POST",
-        body: JSON.stringify(searchString),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          let prefArray = Object.values(data.prefs).map((v) => v);
-          let currNumPeople = prefArray.length;
-          let dataObject = {
-            days: data.days,
-            location: data.location,
-            name: data.name,
-            maxNumPeople: data.numPeople,
-            currNumPeople: currNumPeople,
-            prefs: prefArray,
-            time: data.time,
-          };
-          setDataObject(dataObject);
-        })
-        .catch((error) => {
-          setLocation("/");
-        });
+      fetchRestaurantData();
     }
 
     let obj = {};
@@ -107,7 +114,52 @@ const Input = () => {
               {dataObject.currNumPeople}/{dataObject.maxNumPeople}
             </span>
           </div>
-          <ListingContainer />
+          <button
+            className="buttonStyle"
+            style={{ backgroundColor: "#ffb94f" }}
+            onClick={() => {
+              if (dataObject.maxNumPeople > dataObject.currNumPeople) {
+                let confirmRes = window.confirm(
+                  "Are you sure you want to compile results? Not everyone has submitted their preferences yet"
+                );
+                if (confirmRes) {
+                  let aggData = {
+                    preferredCuisines: [],
+                    preferredDistance: [],
+                    preferredPrice: [],
+                  };
+                  for (let i = 0; i < dataObject.prefs.length; i++) {
+                    Object.keys(dataObject.prefs[i].cuisines).forEach((e) => {
+                      if (dataObject.prefs[i].cuisines[e] == true) {
+                        aggData.preferredCuisines.push(e);
+                      }
+                    });
+                    aggData.preferredDistance.push(
+                      parseInt(dataObject.prefs[i].distance)
+                    );
+                    aggData.preferredPrice.push(
+                      parseInt(dataObject.prefs[i].price)
+                    );
+                  }
+                  fetch("/restaurants", {
+                    method: "POST",
+                    body: JSON.stringify(aggData),
+                    headers: {
+                      "Content-type": "application/json; charset=UTF-8",
+                    },
+                  })
+                    .then((res) => res.json())
+                    .then((data) => {
+                      setRestaurantData(data);
+                    })
+                    .catch((err) => {});
+                }
+              }
+            }}
+          >
+            Search for food!
+          </button>
+          {restaurantData ? <ListingContainer datas={restaurantData} /> : null}
         </div>
       </div>
       <div className="verticalForm">
