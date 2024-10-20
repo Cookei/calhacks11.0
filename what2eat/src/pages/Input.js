@@ -271,62 +271,30 @@ const Input = () => {
           </div>
           <div>
             <label>How much are you willing to spend?</label>
-            <div style={{ display: "block" }}>
-              <div>
+            <div className="centerContentsVertical">              
                 <input
-                  id="1dollar"
-                  type="radio"
+                  id="dollar"
+                  type="range"
                   name="dollars"
-                  value="1"
+                  min="1"
+                  max="4"
+                  step="1"
+                  list="markers"
                   required
                 />
-                <label htmlFor="1dollar">
-                  <i className="material-icons-round">attach_money</i>
-                </label>
-              </div>
-              <div>
-                <input
-                  id="2dollar"
-                  type="radio"
-                  name="dollars"
-                  value="2"
-                  required
-                />
-                <label htmlFor="2dollar">
-                  <i className="material-icons-round">
-                    attach_moneyattach_money
-                  </i>
-                </label>
-              </div>
-              <div>
-                <input
-                  id="3dollar"
-                  type="radio"
-                  name="dollars"
-                  value="3"
-                  required
-                />
-                <label htmlFor="3dollar">
-                  <i className="material-icons-round">
-                    attach_moneyattach_moneyattach_money
-                  </i>
-                </label>
-              </div>
-              <div>
-                <input
-                  id="4dollar"
-                  type="radio"
-                  name="dollars"
-                  value="4"
-                  required
-                />
-                <label htmlFor="4dollar">
-                  <i className="material-icons-round">
-                    attach_moneyattach_moneyattach_moneyattach_money
-                  </i>
-                </label>
-              </div>
+                <datalist id="markers">
+                  <option value="1" label="$" ></option>
+                  <option value="2"></option>
+                  <option value="3"></option>
+                  <option value="4" label="$$$$"></option>
+                </datalist>
             </div>
+            {/* <div className="centerContents">              
+
+            </div> */}
+            <div>
+</div>
+
           </div>
           <input
             type="submit"
