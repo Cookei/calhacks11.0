@@ -30,20 +30,23 @@ def submit_form():
 # return recommended restaurants
 # if everyone has submitted the form -> return remaining
 # else -> return recommended restaurants
-@app.route("/restaurants", methods=["GET"])
+@app.route("/restaurants", methods=["POST"])
 def recommend_restaurants():
     if request != None:
         data = request.json
-        lon = data["location"][0]
-        lat = data["location"][1]
-        dist = average_distance(data["preferredDistance"])
-        price  = average_price(data["price"])
-        cuisines = data["preferredCuisines"]
-        yelp_response = get_details(lon, lat, dist, cuisines, price)
+        lon = data["location"][1]
+        lat = data["location"][0]
+        price = average_price(data["preferredPrice"])
+        cuisines = set(data["preferredCuisines"])
+        yelp_response = get_details(lon, lat, cuisines, price)
+        print(yelp_response)
+        print(cuisines)
         return jsonify(format_restaurant_details(yelp_response))
     else:
         return jsonify({"message": "no request found"}), 400
 
+
+# average_price(data["preferredDistance"])
 def format_restaurant_details(yelp_details):
     max = 3
     restaurants = []
@@ -51,31 +54,31 @@ def format_restaurant_details(yelp_details):
     for i, bus in enumerate(yelp_details.get("businesses")):
         if i >= 3:
             break
-        restaurants.append(restaurant(
-            name=bus["name"],
-            distance=bus["distance"],
-            rating=bus["rating"],
-            price=bus["price"],
-            webpage=bus["menu_url"],
-            icon=bus["image_url"],
-            cuisines=bus["categories"][0]["title"]
-        ))
+        restaurants.append(
+            restaurant(
+                name=bus["name"],
+                distance=bus["distance"],
+                rating=bus["rating"],
+                price=bus["price"],
+                webpage=bus["url"],
+                icon=bus["image_url"],
+                cuisines=bus["categories"][0]["title"],
+            )
+        )
     return restaurants
-    
+
+
 def restaurant(name, distance, rating, price, webpage, icon, cuisines):
     data = {
         "name": name,
         "icon": icon,
-        "price": price, 
+        "price": price,
         "website": "https://" + webpage,
         "distance": distance,
         "rating": rating,
-        "cuisines": cuisines
+        "cuisines": cuisines,
     }
     return json.dumps(data, indent=4)
-    
-if __name__ == '__main__':
-    app.run(debug=True)
 
 
 # firebase stuff
@@ -136,5 +139,17 @@ def retrieve_event():
     data = event_ref.get()
 
     print("data", data)
-    
+
     return str(data)
+
+
+@app.route("/checkKeyExists", methods=["POST"])
+def checkKeyExists():
+    key = request.json
+    data = ref.child("create/" + str(key))
+    print(data.get())
+    return data.get()
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
