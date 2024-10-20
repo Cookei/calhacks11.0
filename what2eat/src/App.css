@@ -1,38 +1,127 @@
-.App {
-  text-align: center;
-}
+@import url("https://fonts.googleapis.com/css2?family=Jua&display=swap");
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+html,
+body > #root {
   min-height: 100vh;
+  font-family: "Jua", sans-serif;
+  background-color: #ecffef;
+  padding: 15px;
+}
+
+.navbar {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+}
+
+.centerContents {
+  display: flex;
+  justify-content: center;
+}
+
+.buttonStyle {
+  border: none;
+  border-radius: 10px;
+  background-color: #b5ffab;
+  height: 35px;
+  width: 184px;
+  font: unset;
+  line-height: 35px;
+  box-shadow: 0px 4px 4px rgba(90, 90, 90, 0.3);
+}
+button,
+input[type="submit"] {
+  cursor: pointer;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+  margin: 0;
+}
+
+.centerContentsVertical {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.verticalForm {
+  background-color: #b5ffab;
+  width: 350px;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0px 4px 4px rgba(90, 90, 90, 0.3);
+  -moz-box-shadow: 0px 4px 4px rgba(90, 90, 90, 0.3);
+  -webkit-box-shadow: 0px 4px 4px rgba(90, 90, 90, 0.3);
+
+  * label,
+  input {
+    display: block;
+  }
+
+  * label {
+    margin-bottom: 10px;
+  }
+
+  > form > div {
+    margin-bottom: 15px;
+  }
+
+  * input[type="text"],
+  input[type="number"] {
+    border: none;
+    width: 100%;
+    border-radius: 10px;
+    height: 3rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
+  }
+  * input:focus {
+    outline-width: 0px;
+  }
+
+  .dropdown {
+    width: 100%;
+    height: 3rem;
+    border: none;
+    border-radius: 10px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    box-sizing: border-box;
+  }
+
+  .weekDayPicker {
+    width: 100%;
+    display: flex;
+    input[type="button"] {
+      flex-grow: 1;
+      width: auto;
+      display: inline-block;
+      border: none;
+      height: 2rem;
+      border-right: 1px solid black;
+    }
+    input[type="button"]:first-child {
+      border-radius: 10px 0 0 10px;
+    }
+    input[type="button"]:last-child {
+      border: none;
+      border-radius: 0 10px 10px 0;
+    }
+  }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.green {
+  background-color: #32e329;
+}
+
+.white {
+  background-color: white;
 }
