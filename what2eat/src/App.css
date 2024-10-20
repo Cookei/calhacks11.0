@@ -94,7 +94,6 @@ input[type="number"] {
   }
   * input:hover {
     background-color: aliceblue;
-    transform: scale(1.05);
   }
 
   .dropdown {
@@ -160,6 +159,7 @@ input[type="number"] {
   .cuisineButton:hover {
     filter: saturate(150%);
     cursor: pointer;
+    transform: scale(1.05);
   }
 }
 
