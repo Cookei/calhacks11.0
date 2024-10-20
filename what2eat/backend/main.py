@@ -15,16 +15,16 @@ def get_preferences():
         print(request.json)
 
 # submit preference data for one participant
-# @app.route('/submit-form', methods=["POST"])
-# def get_preferences():
-#     if request != None:
-#         print(request.json)
+@app.route('/submit-form', methods=["POST"])
+def submit_form():
+    if request != None:
+        print(request.json)
 
 # return recommended restaurants
 # if everyone has submitted the form -> return remaining
 # else -> return recommended restaurants
 @app.route('/restaurants', methods=["GET"])
-def reccomend_restaurants():
+def recommend_restaurants():
     return jsonify({"message": "hello"}), 200
 
 if __name__ == '__main__':
@@ -46,7 +46,7 @@ ref = db.reference("/")
 
 # store an event as a firebase node upon "create event" action
 @app.route('/create', methods = ['POST'])
-def addnode():
+def create_event():
     # store eventObj
     event_ref = ref.child('create')
     new_event_ref = event_ref.push(request.json)
@@ -58,7 +58,7 @@ def addnode():
 
 # store a preference object as a child under create/prefs 
 @app.route('/setprefs', methods = ['POST'])
-def addnode():
+def set_prefs():
     
     # locate the specific key
     data = request.json
@@ -75,7 +75,7 @@ def addnode():
 
 # retrieve data given a specific event
 @app.route('/retrieve', methods = ['POST'])
-def addnode():
+def retrieve_event():
     
     key = request.json
 
