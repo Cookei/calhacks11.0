@@ -89,13 +89,13 @@ input[type="number"] {
     margin-bottom: 10px;
     margin-top: 7px;
     align-items: center;
-    accent-color: #4e25a4;
+    accent-color: #a350d6;
   }
 
   * input[type="range"] {
     width: 300px;
     border: none;
-    accent-color: #4e25a4;
+    accent-color: #7f46ca;
   }
 
   * label,
@@ -200,7 +200,7 @@ input[type="number"] {
 }
 
 .green {
-  background-color: #47f63e !important;
+  background-color: #cc9ae9 !important;
   transition: all 0.1s;
 }
 
