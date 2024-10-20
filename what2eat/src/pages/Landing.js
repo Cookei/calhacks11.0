@@ -40,9 +40,12 @@ const Landing = () => {
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
-    }).then((res) => {
-      setLocation("/create");
-    });
+    })
+      .then((res) => res.text())
+      .then((data) => {
+        console.log(data);
+        setLocation(`/event?${data}`);
+      });
   };
 
   const handleDaySelection = (e) => {
@@ -77,7 +80,7 @@ const Landing = () => {
           <div></div>
         </div>
         <div className="centerContentsVertical" style={{ gap: "20px" }}>
-          <PageButton title={"Join Existing Event"} />
+          {/* <PageButton title={"Join Existing Event"} /> */}
           <div className="verticalForm">
             <form
               onSubmit={(e) => {

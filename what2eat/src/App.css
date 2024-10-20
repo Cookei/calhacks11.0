@@ -6,6 +6,7 @@ body > #root {
   font-family: "Jua", sans-serif;
   background-color: #ecffef;
   padding: 15px;
+  z-index: -5;
 }
 
 .navbar {
@@ -35,7 +36,6 @@ option {
   bottom: -10px; /* Adjust this to move the labels under the slider */
   text-align: center;
 }
-
 
 .buttonStyle {
   border: none;
@@ -174,7 +174,6 @@ input[type="number"] {
       border: none;
       border-radius: 0 10px 10px 0;
     }
-
   }
 
   .cuisineGrid {

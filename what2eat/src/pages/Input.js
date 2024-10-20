@@ -60,8 +60,13 @@ const Input = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        let prefArray = Object.values(data.prefs).map((v) => v);
-        let currNumPeople = prefArray.length;
+        console.log(data);
+        let prefArray = null;
+        let currNumPeople = 0;
+        if (data.prefs != null || data.prefs != undefined) {
+          prefArray = Object.values(data.prefs).map((v) => v);
+          currNumPeople = prefArray.length;
+        }
         let dataObject = {
           days: data.days,
           location: data.location,
@@ -74,6 +79,8 @@ const Input = () => {
         setDataObject(dataObject);
       })
       .catch((error) => {
+        console.log(error);
+        console.log("???");
         setLocation("/");
       });
   };
@@ -86,6 +93,7 @@ const Input = () => {
     ) {
       setLocation("/");
     } else {
+      console.log(searchString);
       fetchRestaurantData();
     }
 
@@ -130,18 +138,20 @@ const Input = () => {
                     preferredPrice: [],
                     location: [dataObject.location[0], dataObject.location[1]],
                   };
-                  for (let i = 0; i < dataObject.prefs.length; i++) {
-                    Object.keys(dataObject.prefs[i].cuisines).forEach((e) => {
-                      if (dataObject.prefs[i].cuisines[e] == true) {
-                        aggData.preferredCuisines.push(e);
-                      }
-                    });
-                    aggData.preferredDistance.push(
-                      parseInt(dataObject.prefs[i].distance)
-                    );
-                    aggData.preferredPrice.push(
-                      parseInt(dataObject.prefs[i].price)
-                    );
+                  if (dataObject.prefs) {
+                    for (let i = 0; i < dataObject.prefs.length; i++) {
+                      Object.keys(dataObject.prefs[i].cuisines).forEach((e) => {
+                        if (dataObject.prefs[i].cuisines[e] == true) {
+                          aggData.preferredCuisines.push(e);
+                        }
+                      });
+                      aggData.preferredDistance.push(
+                        parseInt(dataObject.prefs[i].distance)
+                      );
+                      aggData.preferredPrice.push(
+                        parseInt(dataObject.prefs[i].price)
+                      );
+                    }
                   }
                   fetch("/restaurants", {
                     method: "POST",
@@ -201,112 +211,113 @@ const Input = () => {
       </div>
       <div className="verticalForm">
         <h1>Submit your preferences here!</h1>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            sendPreference(e);
-          }}
-        >
-          <div>
-            <label htmlFor="cuisines">
-              What cuisine(s) are you feeling today?
-            </label>
-            <div style={{ display: "block" }}>
-              <div className="cuisineGrid">
-                {CUISINE_OPTIONS.map((e, i) => {
-                  return (
-                    <input
-                      type="button"
-                      name={e}
-                      value={e}
-                      key={i}
-                      className={
-                        cuisineOptions[e]
-                          ? "cuisineButton green"
-                          : "cuisineButton white"
-                      }
-                      onClick={handleCuisineSelect}
-                    />
-                  );
-                })}
+        {!submitted ? (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              sendPreference(e);
+            }}
+          >
+            <div>
+              <label htmlFor="cuisines">
+                What cuisine(s) are you feeling today?
+              </label>
+              <div style={{ display: "block" }}>
+                <div className="cuisineGrid">
+                  {CUISINE_OPTIONS.map((e, i) => {
+                    return (
+                      <input
+                        type="button"
+                        name={e}
+                        value={e}
+                        key={i}
+                        className={
+                          cuisineOptions[e]
+                            ? "cuisineButton green"
+                            : "cuisineButton white"
+                        }
+                        onClick={handleCuisineSelect}
+                      />
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </div>
-          <div>
-            <label htmlFor="distance">
-              How far are you willing to travel? (miles)
-            </label>
-            <div className="centerContents">
-              <div
-                style={{ position: "relative" }}
-                className="centerContentsVertical"
-              >
-                <input
-                  id="1mi"
-                  type="radio"
-                  value="1"
-                  name="distanceSelector"
-                  required
-                />
-                <label htmlFor="1mi">1mi</label>
-              </div>
-              <div
-                style={{ position: "relative" }}
-                className="centerContentsVertical"
-              >
-                <input
-                  id="5mi"
-                  type="radio"
-                  value="5"
-                  name="distanceSelector"
-                  required
-                />
-                <label htmlFor="5mi">5mi</label>
-              </div>
-              <div
-                style={{ position: "relative" }}
-                className="centerContentsVertical"
-              >
-                <input
-                  id="10mi"
-                  type="radio"
-                  value="10"
-                  name="distanceSelector"
-                  required
-                />
-                <label htmlFor="10mi">10mi</label>
-              </div>
-              <div
-                style={{ position: "relative" }}
-                className="centerContentsVertical"
-              >
-                <input
-                  id="20mi"
-                  type="radio"
-                  value="20"
-                  name="distanceSelector"
-                  required
-                />
-                <label htmlFor="20mi">20mi</label>
-              </div>
-              <div
-                style={{ position: "relative" }}
-                className="centerContentsVertical"
-              >
-                <input
-                  id="40mi"
-                  type="radio"
-                  value="40"
-                  name="distanceSelector"
-                  required
-                />
-                <label htmlFor="40mi">40mi</label>
+            <div>
+              <label htmlFor="distance">
+                How far are you willing to travel? (miles)
+              </label>
+              <div className="centerContents">
+                <div
+                  style={{ position: "relative" }}
+                  className="centerContentsVertical"
+                >
+                  <input
+                    id="1mi"
+                    type="radio"
+                    value="1"
+                    name="distanceSelector"
+                    required
+                  />
+                  <label htmlFor="1mi">1mi</label>
+                </div>
+                <div
+                  style={{ position: "relative" }}
+                  className="centerContentsVertical"
+                >
+                  <input
+                    id="5mi"
+                    type="radio"
+                    value="5"
+                    name="distanceSelector"
+                    required
+                  />
+                  <label htmlFor="5mi">5mi</label>
+                </div>
+                <div
+                  style={{ position: "relative" }}
+                  className="centerContentsVertical"
+                >
+                  <input
+                    id="10mi"
+                    type="radio"
+                    value="10"
+                    name="distanceSelector"
+                    required
+                  />
+                  <label htmlFor="10mi">10mi</label>
+                </div>
+                <div
+                  style={{ position: "relative" }}
+                  className="centerContentsVertical"
+                >
+                  <input
+                    id="20mi"
+                    type="radio"
+                    value="20"
+                    name="distanceSelector"
+                    required
+                  />
+                  <label htmlFor="20mi">20mi</label>
+                </div>
+                <div
+                  style={{ position: "relative" }}
+                  className="centerContentsVertical"
+                >
+                  <input
+                    id="40mi"
+                    type="radio"
+                    value="40"
+                    name="distanceSelector"
+                    required
+                  />
+                  <label htmlFor="40mi">40mi</label>
+                </div>
               </div>
             </div>
-          </div>
-          <div>
-            <label>How much are you willing to spend?</label>
-            <div className="centerContentsVertical">              
+            <div>
+              <label>How much are you willing to spend?</label>
+              <div className="centerContentsVertical">
                 <input
                   id="dollar"
                   type="range"
@@ -318,26 +329,29 @@ const Input = () => {
                   required
                 />
                 <datalist id="markers">
-                  <option value="1" label="$" ></option>
+                  <option value="1" label="$"></option>
                   <option value="2"></option>
                   <option value="3"></option>
                   <option value="4" label="$$$$"></option>
                 </datalist>
-            </div>
-            {/* <div className="centerContents">              
+              </div>
+              {/* <div className="centerContents">              
 
             </div> */}
-            <div>
-</div>
-
+              <div></div>
+            </div>
+            <input
+              type="submit"
+              value="Submit Preferences!"
+              className="buttonStyle"
+              style={{ width: "100%", backgroundColor: "#F5ABFF" }}
+            ></input>
+          </form>
+        ) : (
+          <div>
+            <h2>Submitted!</h2>
           </div>
-          <input
-            type="submit"
-            value="Submit Preferences!"
-            className="buttonStyle"
-            style={{ width: "100%", backgroundColor: "#F5ABFF" }}
-          ></input>
-        </form>
+        )}
       </div>
     </div>
   );
