@@ -19,6 +19,7 @@ const Input = () => {
     "American",
     "French",
     "Vietnamese",
+    "Jamaican",
   ];
 
   const [cuisineOptions, setCuisineOptions] = useState({});
